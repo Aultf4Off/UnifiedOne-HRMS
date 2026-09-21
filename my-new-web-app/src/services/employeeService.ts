@@ -1,7 +1,7 @@
 
 import type { Employee } from "../types/employee";
 
-const API_URL = "http://localhost:8000";
+const API_URL = "https://unifiedone-hrms-1.onrender.com";
 
 // ==========================================
 // GET EMPLOYEES (WITH FILTERS)
