@@ -18,8 +18,8 @@ app = FastAPI(title="HRMS API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:5173",
-    "https://your-vercel-app.vercel.app",
+        "http://localhost:5173",
+        "https://my-new-web-app-gamma.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
