@@ -1,4 +1,3 @@
-
 import type { Employee } from "../types/employee";
 
 const API_URL = "https://unifiedone-hrms-1.onrender.com";
@@ -14,17 +13,14 @@ export async function getEmployees(
 ): Promise<Employee[]> {
   const params = new URLSearchParams();
 
-  // Department filter
   if (department && department !== "All Departments") {
     params.append("department", department);
   }
 
-  // Status filter
   if (status && status !== "All Statuses") {
     params.append("status", status);
   }
 
-  // Search filter
   if (search?.trim()) {
     params.append("search", search.trim());
   }
@@ -38,79 +34,68 @@ export async function getEmployees(
   );
 
   const data = await response.json();
+  console.log("Employees received from API:", data);
 
   if (!response.ok) {
     throw new Error(data.detail || "Failed to load employees");
   }
 
+  if (!Array.isArray(data)) {
+    throw new Error("Invalid employee data received from server");
+  }
+
   return data.map(
     (employee: Record<string, unknown>): Employee => ({
-      id: String(employee.id),
+      id: String(employee.id ?? ""),
 
-      first: String(employee.first_name),
+      first: String(employee.first_name ?? ""),
 
-      middle: String(employee.middle_name || ""),
+      middle: String(employee.middle_name ?? ""),
 
-      last: String(employee.last_name),
+      last: String(employee.last_name ?? ""),
 
-      dob: employee.dob ? String(employee.dob) : "",
+      dob: String(employee.dob ?? ""),
 
-      gender: employee.gender ? String(employee.gender) : "",
+      gender: String(employee.gender ?? ""),
 
-      mobile: employee.mobile
-        ? String(employee.mobile)
-        : "",
+      mobile: String(employee.mobile ?? ""),
 
-      personalEmail: employee.personal_email
-        ? String(employee.personal_email)
-        : "",
+      personalEmail: String(employee.personal_email ?? ""),
 
-      officialEmail: employee.official_email
-        ? String(employee.official_email)
-        : "",
+      officialEmail: String(employee.official_email ?? ""),
 
-      address: employee.address
-        ? String(employee.address)
-        : "",
+      address: String(employee.address ?? ""),
 
-      emergencyName: employee.emergency_name
-        ? String(employee.emergency_name)
-        : "",
+      emergencyName: String(employee.emergency_name ?? ""),
 
-      emergencyMobile: employee.emergency_mobile
-        ? String(employee.emergency_mobile)
-        : "",
+      emergencyMobile: String(employee.emergency_mobile ?? ""),
 
-      department: String(employee.department || ""),
+      department: String(employee.department ?? ""),
 
-      designation: String(employee.designation || ""),
+      designation: String(employee.designation ?? ""),
 
-      employmentType: String(employee.employment_type || ""),
+      employmentType: String(employee.employment_type ?? ""),
 
-      category: String(employee.category || ""),
+      category: String(employee.category ?? ""),
 
-      manager: String(employee.manager || ""),
+      manager: String(employee.manager ?? ""),
 
-      joining: String(employee.joining_date || ""),
+      joining: String(employee.joining_date ?? ""),
 
-      location: String(employee.location || ""),
+      location: String(employee.location ?? ""),
 
-      shift: String(employee.shift || ""),
+      shift: String(employee.shift ?? ""),
 
-      status: String(employee.status || ""),
+      status: String(employee.status ?? ""),
 
-      basic: Number(employee.basic || 0),
+      basic: Number(employee.basic ?? 0),
 
-      bank: employee.bank
-        ? String(employee.bank)
-        : "",
+      bank: String(employee.bank ?? ""),
 
-      photo: employee.photo
-        ? String(employee.photo)
-        : "",
+      photo: String(employee.photo ?? ""),
 
       components:
-        (employee.components as Employee["components"]) || {
+        (employee.components as Employee["components"]) ?? {
           HRA: 0,
           Conveyance: 0,
           PF: 0,
